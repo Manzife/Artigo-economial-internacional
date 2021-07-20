@@ -1,15 +1,15 @@
 import pandas as pd
-
+import seaborn as sns
 #importing data base
 path = r'C:\Users\usuario\Downloads\base_internacional.csv'
 df = pd.read_csv(path, sep = ';', decimal = '.')
 
-df_euroun = df[df['Country Group Name'] == 'European Union']
-df_latam = df[df['Country Group Name'] == 'Latin Amereica and the Caribbean']
-df_g7 = df[df['Country Group Name'] == 'Major advanced econmies (G7)']
-df_euro = df[df['Country Group Name'] == 'Euro area']
-#%%
-
+#cleaning, keeping only the series 
+countries = list(df['Country Group Name'].unique())
+df_euroun = df[df['Country Group Name'] == countries[2]]
+df_latam = df[df['Country Group Name'] == countries[3]]
+df_g7 = df[df['Country Group Name'] == countries[1]]
+df_euro = df[df['Country Group Name'] == countries[0]]
 
 def cleaner(df):
     sub = df.drop(['Units',"Scale",'Country/Series-specific Notes'], axis = 1)
@@ -19,4 +19,8 @@ def cleaner(df):
     sub.set_index(name,inplace = True)
     return sub
 
-x = cleaner(df_euro)
+df_euro = cleaner(df_euro)
+df_latam = cleaner(df_latam)
+df_g7 = cleaner(df_g7)
+df_euroun = cleaner(df_euroun)
+
